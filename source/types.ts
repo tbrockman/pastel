@@ -1,4 +1,5 @@
-import type {ComponentType} from 'react';
+import type { ComponentType } from 'react';
+import Pastel from './index.js';
 
 export type AppProps = {
 	/**
@@ -7,6 +8,7 @@ export type AppProps = {
 	Component: ComponentType<{
 		options: Record<string, unknown>;
 		args: unknown[];
+		app: Pastel;
 	}>;
 
 	/**
@@ -22,6 +24,10 @@ export type AppProps = {
 		 * Arguments.
 		 */
 		args: unknown[];
+		/**
+		 * Reference to created Pastel instance
+		 */
+		app: Pastel;
 	};
 };
 

@@ -1,18 +1,19 @@
 import process from 'node:process';
-import {type Command as CommanderCommand} from 'commander';
-import {render} from 'ink';
-import React, {type ComponentType} from 'react';
-import {StatusMessage} from '@inkjs/ui';
-import {fromZodError} from 'zod-validation-error';
-import {type Command} from './internal-types.js';
+import { type Command as CommanderCommand } from 'commander';
+import { render } from 'ink';
+import React, { type ComponentType } from 'react';
+import { StatusMessage } from '@inkjs/ui';
+import { fromZodError } from 'zod-validation-error';
+import { type Command } from './internal-types.js';
 import generateOptions from './generate-options.js';
 import generateArguments from './generate-arguments.js';
-import {type AppProps} from './types.js';
+import { type AppProps } from './types.js';
+import Pastel from './index.js';
 
 const generateCommand = (
 	commanderCommand: CommanderCommand,
 	pastelCommand: Command,
-	{appComponent}: {appComponent: ComponentType<AppProps>},
+	{ appComponent, app }: { appComponent: ComponentType<AppProps>, app: Pastel },
 ) => {
 	commanderCommand.helpOption('-h, --help', 'Show help');
 
@@ -50,7 +51,7 @@ const generateCommand = (
 		}
 	}
 
-	const {component} = pastelCommand;
+	const { component } = pastelCommand;
 
 	if (component) {
 		commanderCommand.action((...input) => {
@@ -76,6 +77,7 @@ const generateCommand = (
 								}).message
 							}
 						</StatusMessage>,
+						app.renderOptions
 					);
 
 					// eslint-disable-next-line unicorn/no-process-exit
@@ -103,6 +105,7 @@ const generateCommand = (
 								}).message
 							}
 						</StatusMessage>,
+						app.renderOptions
 					);
 
 					// eslint-disable-next-line unicorn/no-process-exit
@@ -116,8 +119,10 @@ const generateCommand = (
 					commandProps: {
 						options: parsedOptions,
 						args: arguments_,
+						app
 					},
 				}),
+				app.renderOptions
 			);
 		});
 	}

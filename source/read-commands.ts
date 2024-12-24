@@ -1,8 +1,8 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import {pathToFileURL} from 'node:url';
+import { pathToFileURL } from 'node:url';
 import decamelize from 'decamelize';
-import type {CommandExports, Command} from './internal-types.js';
+import type { CommandExports, Command } from './internal-types.js';
 
 const readCommands = async (
 	directory: string,
@@ -45,17 +45,18 @@ const readCommands = async (
 		}
 
 		const fileUrl = pathToFileURL(filePath);
-		const m = (await import(fileUrl.href)) as CommandExports;
-		const name = decamelize(file.replace(/\.(js|ts)x?$/, ''), {separator: '-'});
+		const { description, isDefault, alias, options, args, default: component, ...rest } = (await import(fileUrl.href)) as CommandExports;
+		const name = decamelize(file.replace(/\.(js|ts)x?$/, ''), { separator: '-' });
 
 		commands.set(name, {
 			name,
-			description: m.description,
-			isDefault: m.isDefault ?? false,
-			alias: m.alias,
-			options: m.options,
-			args: m.args,
-			component: m.default,
+			description,
+			isDefault: isDefault ?? false,
+			alias,
+			options,
+			args,
+			component,
+			...rest,
 		});
 	}
 

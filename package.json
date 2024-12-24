@@ -1,9 +1,9 @@
 {
-	"name": "pastel",
-	"version": "3.0.0",
+	"name": "@jsnix/pastel",
+	"version": "3.0.1",
 	"description": "Framework for effortlessly building Ink apps",
 	"license": "MIT",
-	"repository": "vadimdemedes/pastel",
+	"repository": "tbrockman/pastel",
 	"author": {
 		"name": "Vadim Demedes",
 		"email": "vadimdemedes@hey.com",
