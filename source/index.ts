@@ -105,4 +105,4 @@ export function argument(config: CommandArgumentConfig) {
 
 export * from './types.js';
 export { readCommands };
-export type { Command, CommandArgumentConfig, CommandOptionConfig };
+export type { Command } from './internal-types.js';
