@@ -54,7 +54,7 @@ const generateCommand = (
 	const { component } = pastelCommand;
 
 	if (component) {
-		commanderCommand.action((...input) => {
+		commanderCommand.action(async (...input) => {
 			// Remove the last argument, which is an instance of Commander command
 			input.pop();
 
@@ -62,7 +62,7 @@ const generateCommand = (
 			let parsedOptions: Record<string, unknown> = {};
 
 			if (pastelCommand.options) {
-				const result = pastelCommand.options.safeParse(options);
+				const result = await pastelCommand.options.safeParseAsync(options);
 
 				if (result.success) {
 					parsedOptions = result.data ?? {};
@@ -88,7 +88,7 @@ const generateCommand = (
 			let arguments_: unknown[] = [];
 
 			if (pastelCommand.args) {
-				const result = pastelCommand.args.safeParse(
+				const result = await pastelCommand.args.safeParseAsync(
 					hasVariadicArgument ? input.flat() : input,
 				);
 
@@ -113,7 +113,7 @@ const generateCommand = (
 				}
 			}
 
-			render(
+			const { waitUntilExit } = render(
 				React.createElement(appComponent, {
 					Component: component,
 					commandProps: {
@@ -124,6 +124,7 @@ const generateCommand = (
 				}),
 				app.renderOptions
 			);
+			await waitUntilExit();
 		});
 	}
 };
