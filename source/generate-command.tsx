@@ -1,5 +1,5 @@
 import process from 'node:process';
-import { type Command as CommanderCommand } from 'commander';
+import type { Command as CommanderCommand } from 'commander';
 import { render } from 'ink';
 import React, { type ComponentType } from 'react';
 import { StatusMessage } from '@inkjs/ui';
