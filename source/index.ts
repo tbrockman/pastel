@@ -97,7 +97,7 @@ export default class Pastel {
 		program.description(description);
 		program.helpOption('-h, --help', 'Show help');
 		await program.parseAsync(argv);
-		return this.#render;
+		return this.#render as Instance;
 	}
 }
 
