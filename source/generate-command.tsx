@@ -1,4 +1,3 @@
-import process from 'node:process';
 import type { Command as CommanderCommand } from 'commander';
 import { render } from 'ink';
 import React, { type ComponentType } from 'react';
@@ -67,7 +66,7 @@ const generateCommand = (
 				if (result.success) {
 					parsedOptions = result.data ?? {};
 				} else {
-					render(
+					app.render = render(
 						<StatusMessage variant="error">
 							{
 								fromZodError(result.error, {
@@ -79,9 +78,6 @@ const generateCommand = (
 						</StatusMessage>,
 						app.renderOptions
 					);
-
-					// eslint-disable-next-line unicorn/no-process-exit
-					process.exit(1);
 				}
 			}
 
@@ -95,7 +91,7 @@ const generateCommand = (
 				if (result.success) {
 					arguments_ = result.data ?? [];
 				} else {
-					render(
+					app.render = render(
 						<StatusMessage variant="error">
 							{
 								fromZodError(result.error, {
@@ -107,13 +103,10 @@ const generateCommand = (
 						</StatusMessage>,
 						app.renderOptions
 					);
-
-					// eslint-disable-next-line unicorn/no-process-exit
-					process.exit(1);
 				}
 			}
 
-			const { waitUntilExit } = render(
+			app.render = render(
 				React.createElement(appComponent, {
 					Component: component,
 					commandProps: {
@@ -124,7 +117,6 @@ const generateCommand = (
 				}),
 				app.renderOptions
 			);
-			await waitUntilExit();
 		});
 	}
 };

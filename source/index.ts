@@ -8,7 +8,7 @@ import generateCommands from './generate-commands.js';
 import App from './_app.js';
 import readCustomApp from './read-custom-app.js';
 import type { CommandArgumentConfig, CommandOptionConfig } from './types.js';
-import type { RenderOptions } from 'ink';
+import type { Instance, RenderOptions } from 'ink';
 
 export type Options = {
 	/**
@@ -38,10 +38,21 @@ export type Options = {
 };
 
 export default class Pastel {
+
+	#render?: Instance
+
 	constructor(private readonly options: Options) { }
 
 	get renderOptions() {
 		return this.options.renderOptions;
+	}
+
+	set render(render: Instance) {
+		this.#render = render;
+	}
+
+	get render(): Instance | undefined {
+		return this.#render;
 	}
 
 	/**
@@ -86,6 +97,7 @@ export default class Pastel {
 		program.description(description);
 		program.helpOption('-h, --help', 'Show help');
 		await program.parseAsync(argv);
+		return this.#render;
 	}
 }
 
